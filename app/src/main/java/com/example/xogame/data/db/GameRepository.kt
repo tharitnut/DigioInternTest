@@ -1,5 +1,6 @@
 package com.example.xogame.data.db
 
+import androidx.room.withTransaction
 import com.example.xogame.data.entity.GameSession
 import com.example.xogame.data.entity.Move
 import kotlinx.coroutines.Dispatchers
@@ -49,5 +50,14 @@ class GameRepository(private val db: AppDatabase) {
         )
     }
 
-
+    suspend fun clearHistory() = withContext(Dispatchers.IO) {
+        db.withTransaction {
+            // delete rows
+            db.moveDao().deleteAllMoves()
+            db.sessionDao().deleteAllSessions()
+            //reset autoincrement sequences
+            db.moveDao().resetMoveIdSequence()
+            db.sessionDao().resetSessionIdSequence()
+        }
+    }
 }

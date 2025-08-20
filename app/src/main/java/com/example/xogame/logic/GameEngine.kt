@@ -2,13 +2,13 @@ package com.example.xogame.logic
 
 object GameEngine {
 
-    /*
-    * @param board ex. [["X","O","O"],["X","O",""],["O","X",""]]
-    * @param winLength = จำนวนตัวที่ต้องเรียงติดกัน
-    * @return "X" | "O" | null (player who win, null if draw)
-    * */
+    /**
+     * @param board ex. [["X","O","O"],["X","O",""],["O","X",""]]
+     * @param winLength = จำนวนตัวที่ต้องเรียงติดกัน
+     * @return "X" | "O" | null (player who win, null if draw)
+     * **/
 
-    fun chechWinner(board: List<List<String>>, winLength: Int): String? {
+    fun checkWinner(board: List<List<String>>, winLength: Int): String? {
         val boardSize = board.size
         if (boardSize == 0) return null
 

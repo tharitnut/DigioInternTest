@@ -20,4 +20,10 @@ interface GameSessionDao {
     @Query("select * from GameSession where id = :id limit 1")
     fun getSession(id: Long): Flow<GameSession?>
 
+    @Query("DELETE FROM GameSession")
+    suspend fun deleteAllSessions()
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'GameSession'")
+    suspend fun resetSessionIdSequence()
+
 }

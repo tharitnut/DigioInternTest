@@ -61,7 +61,7 @@ class GameViewModel(
         }
 
         val flat = newBoard.map { row -> row.map { it.value } }
-        val won = GameEngine.chechWinner(flat, state.winLength)
+        val won = GameEngine.checkWinner(flat, state.winLength)
         val isDraw = !won.let { it != null } && flat.all { row -> row.all { it.isNotEmpty() } }
 
         if (won != null || isDraw) {
@@ -82,9 +82,11 @@ class GameViewModel(
             val nextPlayer = if (player == "X") "O" else "X"
             _uiState.value = state.copy(
                 board = newBoard,
-                currentPlayer = player,
+                currentPlayer = nextPlayer,
                 moveNumber = nextMove,
             )
         }
     }
+
+
 }

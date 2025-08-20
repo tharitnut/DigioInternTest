@@ -15,6 +15,12 @@ interface MoveDao {
     fun getMoveForSession(sessionId: Long): Flow<List<Move>>
 
     @Query("delete from Move where sessionId = :sessionId")
-    suspend fun deleteMoveFrrSession(sessionId: Long)
+    suspend fun deleteMoveForSession(sessionId: Long)
+
+    @Query("DELETE FROM Move")
+    suspend fun deleteAllMoves()
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'Move'")
+    suspend fun resetMoveIdSequence()
 
 }

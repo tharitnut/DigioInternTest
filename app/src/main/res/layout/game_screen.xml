@@ -18,7 +18,7 @@
         android:layout_width="0dp"
         android:layout_height="12dp" />
 
-    <!-- Set columnCount & add children dynamically in code -->
+    <!-- Set Board (Size get from HomeScreen) -->
     <GridLayout
         android:id="@+id/gridBoard"
         android:alignmentMode="alignMargins"

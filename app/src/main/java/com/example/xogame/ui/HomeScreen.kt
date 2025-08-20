@@ -1,5 +1,6 @@
 package com.example.xogame.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
@@ -31,8 +33,10 @@ fun HomeScreen(
         }
     })
     val state by vm.uiState.collectAsState()
+    val context = LocalContext.current
 
     var sizeInput by remember { mutableStateOf("3") }
+    var showConfirmDelete by remember { mutableStateOf(false) }
 
     Column(
         Modifier
@@ -48,7 +52,9 @@ fun HomeScreen(
                 Spacer(Modifier.height(8.dp))
                 OutlinedTextField(
                     value = sizeInput,
-                    onValueChange = { sizeInput = it.filter { ch -> ch.isDigit() }.take(2) },
+                    onValueChange = { value ->
+                        sizeInput = value.filter { ch -> ch.isDigit() }.take(2)
+                    },
                     label = { Text("Board size (3-12)") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true
@@ -62,14 +68,53 @@ fun HomeScreen(
         }
 
         Spacer(Modifier.height(24.dp))
-        Text("Replays", style = MaterialTheme.typography.titleMedium)
-        Spacer(Modifier.height(8.dp))
 
-        LazyColumn(Modifier.fillMaxSize()) {
-            items(state.session) { s ->
-                SessionRow(session = s, onOpen = { onOpenReplay(s.id) })
+        // --- Replays header + Delete History button ---
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Replays", style = MaterialTheme.typography.titleMedium)
+            Spacer(Modifier.weight(1f))
+            OutlinedButton(onClick = { showConfirmDelete = true }) {
+                Text("Delete History")
             }
         }
+        Spacer(Modifier.height(8.dp))
+
+        // --- List of sessions ---
+        if (state.session.isEmpty()) {
+            Text(
+                "No history yet.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        } else {
+            LazyColumn(Modifier.fillMaxSize()) {
+                items(state.session) { session ->
+                    SessionRow(session = session, onOpen = { onOpenReplay(session.id) })
+                }
+            }
+        }
+    }
+
+    // --- Confirm dialog for delete history ---
+    if (showConfirmDelete) {
+        AlertDialog(
+            onDismissRequest = { showConfirmDelete = false },
+            title = { Text("Delete all history?") },
+            text = { Text("This will remove all saved game sessions and moves.") },
+            confirmButton = {
+                TextButton(onClick = {
+                    vm.onDeleteHistory()
+                    showConfirmDelete = false
+                    Toast.makeText(context, "History cleared", Toast.LENGTH_SHORT).show()
+                }) { Text("Delete") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showConfirmDelete = false }) { Text("Cancel") }
+            }
+        )
     }
 }
 
