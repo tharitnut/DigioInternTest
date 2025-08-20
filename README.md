@@ -21,6 +21,7 @@ Game history is stored with **Room Database** and also can watch replays.
 - **JDK 17**
 - **Android SDK Platform 36**
 - Emulator/Device running **Android 8.0 (API 26)+**
+ℹ️ This project was developed and tested on a Pixel 7 emulator (API 35).
 
 ### Steps
 
