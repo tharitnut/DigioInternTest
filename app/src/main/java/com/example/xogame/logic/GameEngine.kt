@@ -36,7 +36,7 @@ object GameEngine {
 
         // check diagonal up
         for (startCol in 0 until boardSize) {
-            val diagonal = collectDiagonalDown(board, boardSize - 1, startCol)
+            val diagonal = collectDiagonalUp(board, boardSize - 1, startCol)
             checkLine(diagonal, winLength)?.let { return it }
         }
         for (startRow in boardSize - 2 downTo 0) {
