@@ -1,30 +1,64 @@
 # XO Game (Kotlin Jetpack Compose)
 
-โปรเจกต์เกม XO ที่เลือกขนาดกระดานได้เอง (**ตั้งแต่ 3×3 ขึ้นไป**)  
-บันทึกประวัติการเล่น (History) ด้วย **Room Database** และเปิดดู **Replay** ได้
+Tic-Tac-Toe project with a customizable board size (**from 3×3 and larger**)  
+Game history is stored with **Room Database** and also can watch replays.
 
 ---
 
 ## 🚀 Features
-- เลือกขนาดกระดาน: 3×3, 4×4, 5×5 … (กำหนดได้จากหน้า Home)
-- โหมด **2 ผู้เล่นผลัดกัน** (ไม่มี AI)
-- บันทึก **Game Session** + **Moves** ลง Room
-- หน้า **Replay** ย้อนดูการเดินหมากทีละตา
-- UI เขียนด้วย **Jetpack Compose (Material 3)** + **Navigation**
+- Choose board size: 3×3, 4×4, 5×5 ... (set from Home screen)
+- **2-player mode**
+- Save **Game Session** + **Moves** into Room
+- **Replay screen** to review each move step by step
+- UI built with **Jetpack Compose (Material 3)** + **Navigation**
+
+---
+
+## ⚙️ Setup
+
+### Requirements
+- **Android Studio Ladybug+** (or newer)
+- **JDK 17**
+- **Android SDK Platform 36**
+- Emulator/Device running **Android 8.0 (API 26)+**
+
+### Steps
+
+    git clone https://github.com/tharitnut/DigioInternTest.git xo-game
+    cd xo-game
+
+Open in Android Studio → Sync Gradle → Run on Emulator/Device.
+
+---
+
+## ▶️ Run
+
+- Select board size in HomeScreen
+- Play game in GameScreen (Use Back button to go back to HomeScreen)
+- Watch replay in ReplayScreen
 
 ---
 
 ## 📂 Project Structure
-- `ui/` → ส่วนแสดงผล ( **HomeScreen**, **GameScreen**, **ReplayScreen** )
-- `viewmodel/` → State & Logic ของแต่ละหน้า (HomeViewModel, GameViewModel, ReplayViewModel)
-- `data/` → ฐานข้อมูล (Room **entities**, **dao**, **db**, **repo**)
-- `logic/` → อัลกอริทึมเกม ( **GameEngine** ตรวจผู้ชนะ K-in-a-row )
-- `MainActivity.kt` → จุดเริ่มต้นแอพ + Navigation + DI แบบบาง ๆ
+- `ui/` → UI screens (**HomeScreen**, **GameScreen**, **ReplayScreen**)
+- `viewmodel/` → State & logic for each screen (**HomeViewModel**, **GameViewModel**, **ReplayViewModel**)
+- `data/` → Database (Room **entities**, **dao**, **db**, **repo**)
+- `logic/` → Game algorithms (**GameEngine** checks win condition 3 or 4-in-a-row)
+- `MainActivity.kt` → App entry point + Navigation
+
 
 ---
 
- ## 🧠 Logic (สรุปย่อ) 
-- กติกาชนะ: - 3×3 → **3-in-a-row**
-- กระดานใหญ่กว่า → **4-in-a-row** (ปรับได้ใน GameViewModel)
-- ตรวจแนวชนะ 4 ทิศ: แนวนอน, แนวตั้ง, ทแยงลง , ทแยงขึ้น
-
+## 🧠 Logic & Algorithm
+- Win condition
+  - Board 3×3 → 3-in-a-row
+  - Board larger than 3×3 → 4-in-a-row (can be adjusted in `GameViewModel`)
+- Algorithm (Checks for winning lines in 4 directions):
+  - Horizontal
+  - Vertical
+  - Diagonal down `\`
+  - Diagonal up `/`
+- For each cell:
+  - If cell has X or O, check next K-1 cells in each direction
+  - If all match → declare winner
+  - If no winner and board is full → Draw
