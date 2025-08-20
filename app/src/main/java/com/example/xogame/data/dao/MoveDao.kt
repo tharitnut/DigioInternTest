@@ -23,4 +23,7 @@ interface MoveDao {
     @Query("DELETE FROM sqlite_sequence WHERE name = 'Move'")
     suspend fun resetMoveIdSequence()
 
+    @Query("DELETE FROM Move WHERE sessionId = :sessionId")
+    suspend fun deleteMovesForSession(sessionId: Long)
+
 }

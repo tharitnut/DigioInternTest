@@ -60,14 +60,15 @@ class GameViewModel(
             }
         }
 
-        val flat = newBoard.map { row -> row.map { it.value } }
+        val flat = newBoard.map { r -> r.map { it.value } }
         val won = GameEngine.checkWinner(flat, state.winLength)
-        val isDraw = !won.let { it != null } && flat.all { row -> row.all { it.isNotEmpty() } }
+        val isDraw = (won == null) && flat.all { r -> r.all { it.isNotEmpty() } }
 
         if (won != null || isDraw) {
             val winner = won ?: "Draw"
             viewModelScope.launch {
                 if (state.sessionId != -1L) {
+                    // keep your current method name (finishSession/findSession)
                     repo.findSession(state.sessionId, if (won != null) won else null)
                 }
             }
@@ -83,10 +84,16 @@ class GameViewModel(
             _uiState.value = state.copy(
                 board = newBoard,
                 currentPlayer = nextPlayer,
-                moveNumber = nextMove,
+                moveNumber = nextMove
             )
         }
     }
 
-
+    /** Cancel the current playing session (delete its moves + the session row). */
+    suspend fun cancelCurrentSession() {
+        val id = _uiState.value.sessionId
+        if (id != -1L && !_uiState.value.isFinished) {
+            repo.cancelSession(id)
+        }
+    }
 }

@@ -16,6 +16,7 @@ import com.example.xogame.data.db.GameRepository
 import com.example.xogame.data.repo.LocalRepository
 import com.example.xogame.ui.GameScreen
 import com.example.xogame.ui.HomeScreen
+import com.example.xogame.ui.ReplayScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +43,13 @@ class MainActivity : ComponentActivity() {
                             ) { backStack ->
                                 val size = backStack.arguments?.getInt("size") ?: 3
                                 GameScreen(size = size, onFinished = { nav.popBackStack() })
+                            }
+                            composable(
+                                "replay/{sessionId}",
+                                listOf(navArgument("sessionId") { type = NavType.LongType })
+                            ) { backStack ->
+                                val id = backStack.arguments?.getLong("sessionId") ?: -1L
+                                ReplayScreen(sessionId = id, onBack = { nav.popBackStack() })
                             }
 
 

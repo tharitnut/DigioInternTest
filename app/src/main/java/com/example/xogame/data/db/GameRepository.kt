@@ -60,4 +60,11 @@ class GameRepository(private val db: AppDatabase) {
             db.sessionDao().resetSessionIdSequence()
         }
     }
+
+    suspend fun cancelSession(sessionId: Long) = withContext(Dispatchers.IO) {
+        db.withTransaction {
+            db.moveDao().deleteMovesForSession(sessionId)
+            db.sessionDao().deleteSessionById(sessionId)
+        }
+    }
 }

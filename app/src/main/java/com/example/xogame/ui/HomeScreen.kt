@@ -43,7 +43,7 @@ fun HomeScreen(
             .fillMaxSize()
             .padding(20.dp)
     ) {
-        Text("XO - 2 Players (Local)", style = MaterialTheme.typography.headlineMedium)
+        Text("XO - 2 Players", style = MaterialTheme.typography.headlineMedium)
         Spacer(Modifier.height(12.dp))
 
         Card(Modifier.fillMaxWidth()) {
@@ -77,7 +77,7 @@ fun HomeScreen(
             Text("Replays", style = MaterialTheme.typography.titleMedium)
             Spacer(Modifier.weight(1f))
             OutlinedButton(onClick = { showConfirmDelete = true }) {
-                Text("Delete History")
+                Text("Clear History")
             }
         }
         Spacer(Modifier.height(8.dp))
@@ -102,14 +102,14 @@ fun HomeScreen(
     if (showConfirmDelete) {
         AlertDialog(
             onDismissRequest = { showConfirmDelete = false },
-            title = { Text("Delete all history?") },
+            title = { Text("Clear all history?") },
             text = { Text("This will remove all saved game sessions and moves.") },
             confirmButton = {
                 TextButton(onClick = {
                     vm.onDeleteHistory()
                     showConfirmDelete = false
                     Toast.makeText(context, "History cleared", Toast.LENGTH_SHORT).show()
-                }) { Text("Delete") }
+                }) { Text("Clear") }
             },
             dismissButton = {
                 TextButton(onClick = { showConfirmDelete = false }) { Text("Cancel") }

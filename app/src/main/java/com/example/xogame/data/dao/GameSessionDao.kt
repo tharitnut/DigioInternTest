@@ -26,4 +26,7 @@ interface GameSessionDao {
     @Query("DELETE FROM sqlite_sequence WHERE name = 'GameSession'")
     suspend fun resetSessionIdSequence()
 
+    @Query("DELETE FROM GameSession WHERE id = :sessionId")
+    suspend fun deleteSessionById(sessionId: Long)
+
 }
