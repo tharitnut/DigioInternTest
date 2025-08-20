@@ -67,6 +67,7 @@ fun ReplayScreen(sessionId: Long, onBack: () -> Unit) {
             val cellSize = cellSizeFor(state.boardSize)
             val symbolSize = fontSizeFor(state.boardSize)
 
+            // Replay Board
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 for (r in 0 until state.boardSize) {
                     Row {
@@ -88,6 +89,7 @@ fun ReplayScreen(sessionId: Long, onBack: () -> Unit) {
 
             Spacer(Modifier.height(16.dp))
 
+            // Replay controls
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Button(onClick = { vm.stepTo(0) }) { Text("⏮ Start") }
                 Spacer(Modifier.width(8.dp))

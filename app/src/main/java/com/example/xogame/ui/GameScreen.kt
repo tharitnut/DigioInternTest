@@ -78,6 +78,7 @@ fun GameScreen(
             val cellSize = cellSizeFor(state.boardSize)
             val symbolSize = fontSizeFor(state.boardSize)
 
+            // Game Board
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 for (r in 0 until state.boardSize) {
                     Row {
@@ -111,6 +112,7 @@ fun GameScreen(
 
             Spacer(Modifier.height(16.dp))
 
+            // Winner / Draw message
             if (state.isFinished) {
                 val msg = if (state.winner == "Draw") "It's a draw!" else "Winner: ${state.winner}"
                 Text(msg, style = MaterialTheme.typography.titleLarge)
@@ -120,6 +122,7 @@ fun GameScreen(
         }
     }
 
+    // Confirmation dialog when press back
     if (showConfirmCancel) {
         AlertDialog(
             onDismissRequest = { showConfirmCancel = false },

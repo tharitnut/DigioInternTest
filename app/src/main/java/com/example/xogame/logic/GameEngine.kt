@@ -40,7 +40,7 @@ object GameEngine {
             checkLine(diagonal, winLength)?.let { return it }
         }
         for (startRow in boardSize - 2 downTo 0) {
-            val diagonal = collectDiagonalDown(board, startRow, 0)
+            val diagonal = collectDiagonalUp(board, startRow, 0)
             checkLine(diagonal, winLength)?.let { return it }
         }
 
